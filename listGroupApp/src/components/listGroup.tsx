@@ -1,20 +1,24 @@
 import { useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 
-function ListGroupApp() {
-  let Days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  // let selectedIndex = 0;
+interface Props {
+  items : string[];
+  heading : string;
+  onSelectItem: (item: string) => void; 
+}
+
+function ListGroupApp({items, heading, onSelectItem}: Props) {
+  
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  // Days = [];
   return (
     <Fragment>
-      <h1>List</h1>
-      {Days.length === 0 && <p>No items found!</p>}
+      <h1>{heading}</h1>
+      {items.length === 0 && <p>No items found!</p>}
       <ul className="list-group">
-        {Days.map((Day, index) => (
+        {items.map((item, index) => (
           <li
-            key={Day}
+            key={item}
             className={
               selectedIndex === index
                 ? "list-group-item active"
@@ -22,9 +26,10 @@ function ListGroupApp() {
             }
             onClick={() => {
               setSelectedIndex(index);
+              onSelectItem(item);
             }}
           >
-            {Day}
+            {item}
           </li>
         ))}
       </ul>
